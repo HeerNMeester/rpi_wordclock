@@ -1,10 +1,9 @@
 import os
-import time
 
 
 class plugin:
     """
-    A class to restart the RPI
+    A class to switch off the LEDs temporarily.
     """
 
     def __init__(self, config):
@@ -13,15 +12,13 @@ class plugin:
         """
         # Get plugin name (according to the folder, it is contained in)
         self.name = os.path.dirname(__file__).split('/')[-1]
-        self.pretty_name = "Restart"
-        self.description = "Restarts the wordclock"
+        self.pretty_name = "LEDs off"
+        self.description = "Disables the wordclock display."
 
     def run(self, wcd, wci):
         """
-        Restart wordclock
+        Displays nothing until aborted by user interaction on pin button_return
         """
-        wcd.showText("Restarting...    ")
-        wcd.showIcon(plugin=self.name, iconName='logo')
-        os.system("shutdown now -r")
-        time.sleep(10)
-        return
+        wcd.resetDisplay()
+        wcd.show()
+        wci.waitForEvent()
